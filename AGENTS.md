@@ -33,6 +33,7 @@ This is a learning environment. The student is responsible for understanding eve
 6. **Do not invent requirements.** If behavior is unclear, ask the student instead of guessing.
 7. **Never hide failures.** If tests fail, a command errors, or you are unsure something works, say so plainly.
 8. **Keep secrets out of code.** API keys, passwords, and tokens go in environment variables or config files that are excluded by `.gitignore`. Never commit them.
+9. **Update ReadMe** after making any changes, update the ### Current Working project specs and # next steps in ReadMe.md to reflect the new code.
 
 ---
 

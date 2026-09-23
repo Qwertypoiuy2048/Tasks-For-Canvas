@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Canvas Tasks Hello World",
+  "description": "Adds a small Hello World message to supported webpages.",
+  "version": "0.1.0",
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "src/ui/helloWorldMessage.js",
+        "src/ui/contentScript.js"
+      ],
+      "css": [
+        "src/ui/helloWorldMessage.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

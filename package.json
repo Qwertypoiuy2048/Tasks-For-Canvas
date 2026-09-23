@@ -1,0 +1,7 @@
+{
+  "name": "tasks-for-canvas",
+  "private": true,
+  "scripts": {
+    "test": "node tests/unit/helloWorldMessage.test.js"
+  }
+}
