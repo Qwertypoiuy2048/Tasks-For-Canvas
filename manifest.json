@@ -1,13 +1,13 @@
 {
   "manifest_version": 3,
   "name": "Canvas Tasks Hello World",
-  "description": "Adds a small Hello World message to supported webpages.",
+  "description": "Temporarily displays page information from Canvas.",
   "version": "0.1.0",
   "content_scripts": [
     {
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "http://*.instructure.com/*",
+        "https://*.instructure.com/*"
       ],
       "js": [
         "src/ui/helloWorldMessage.js",
