@@ -35,6 +35,46 @@ test("updates an existing message with refreshed Canvas information", () => {
   assert.doesNotMatch(message.textContent, /old information/);
 });
 
+test("renders To Do and graded assignments in separate sections", () => {
+  function createNode(tagName) {
+    const node = {
+      tagName,
+      className: "",
+      textContent: "",
+      children: [],
+      append: (...children) => node.children.push(...children),
+    };
+    return node;
+  }
+
+  const message = createNode("div");
+  const document = { createElement: createNode };
+  const pageInfo = {
+    title: "Dashboard",
+    todoAssignments: [{
+      title: "Sprint 1 Video Update",
+      course: "Freshman Discovery Project",
+      details: ["1 points", "Sep 28 at 11:59pm"],
+      url: "/courses/1/assignments/2",
+    }],
+    feedback: [{
+      title: "W02 Lab: Calendar Design",
+      course: "CSE 131",
+      grade: "90%",
+      comment: "Nice work.",
+    }],
+  };
+
+  updateHelloWorldMessage(message, pageInfo, document);
+
+  assert.deepEqual(
+    message.children.map((section) => section.className),
+    ["canvas-tasks-page-info", "canvas-tasks-section canvas-tasks-todo", "canvas-tasks-section canvas-tasks-graded"],
+  );
+  assert.equal(message.children[1].children[1].className, "canvas-tasks-assignment");
+  assert.equal(message.children[2].children[1].className, "canvas-tasks-assignment");
+});
+
 test("adds the temporary information inside Canvas's right sidebar", () => {
   const message = { textContent: "", id: "" };
   const sidebar = {
@@ -68,7 +108,7 @@ test("does not recognize an unrelated webpage as Canvas", () => {
 test("collects temporary page information from Canvas", () => {
   const todoItem = {
     querySelector: (selector) => {
-      if (selector === 'svg[label="Assignment"]') return {};
+      if (selector === 'svg[label="Assignment"]') return { label: "Assignment" };
       if (selector === '[data-testid="todo-sidebar-item-title"] a') {
         return { textContent: "Sprint 1 Video Update", href: "/courses/1/assignments/2" };
       }
@@ -84,6 +124,24 @@ test("collects temporary page information from Canvas", () => {
       return [];
     },
   };
+  const quizItem = {
+    querySelector: (selector) => {
+      if (selector === 'svg[label="Quiz"]') return { label: "Quiz" };
+      if (selector === '[data-testid="todo-sidebar-item-title"] a') {
+        return { textContent: "Lesson 4 Quiz", href: "/courses/1/quizzes/2" };
+      }
+      if (selector === ".ToDoSidebarItem__Info > span") {
+        return { textContent: "The Eternal Family" };
+      }
+      return null;
+    },
+    querySelectorAll: (selector) => {
+      if (selector === '[data-testid="ToDoSidebarItem__InformationRow"] li') {
+        return [{ textContent: "47 points" }, { textContent: "Sep 28 at 11:59pm" }];
+      }
+      return [];
+    },
+  };
   const document = {
     title: "Dashboard",
     querySelector: (selector) => {
@@ -91,7 +149,7 @@ test("collects temporary page information from Canvas", () => {
       return null;
     },
     querySelectorAll: (selector) => {
-      if (selector === ".ToDoSidebarItem") return [todoItem];
+      if (selector === ".ToDoSidebarItem") return [todoItem, quizItem];
       if (selector === 'a[href*="assignments"]') {
         return [
           { textContent: "Read chapter 1", href: "/courses/123/assignments/1" },
@@ -115,9 +173,17 @@ test("collects temporary page information from Canvas", () => {
       todoAssignments: [
         {
           title: "Sprint 1 Video Update",
+          type: "Assignment",
           course: "Freshman Discovery Project",
           details: ["1 points", "Sep 28 at 11:59pm"],
           url: "/courses/1/assignments/2",
+        },
+        {
+          title: "Lesson 4 Quiz",
+          type: "Quiz",
+          course: "The Eternal Family",
+          details: ["47 points", "Sep 28 at 11:59pm"],
+          url: "/courses/1/quizzes/2",
         },
       ],
       feedback: [],

@@ -5,7 +5,7 @@ if (isCanvasPage(window.location.href)) {
 
     console.info("Tasks for Canvas: temporary page information", canvasPageInfo);
     if (existingMessage) {
-      updateHelloWorldMessage(existingMessage, canvasPageInfo);
+      updateHelloWorldMessage(existingMessage, canvasPageInfo, document);
     } else {
       addHelloWorldMessage(document, canvasPageInfo);
     }
@@ -17,7 +17,7 @@ if (isCanvasPage(window.location.href)) {
   if (typeof MutationObserver !== "undefined" && observationTarget) {
     const observer = new MutationObserver(() => {
       const hasTodoAssignment = document.querySelector(
-        '.ToDoSidebarItem svg[label="Assignment"]',
+        '.ToDoSidebarItem svg[label="Assignment"], .ToDoSidebarItem svg[label="Quiz"]',
       );
 
       if (hasTodoAssignment) {

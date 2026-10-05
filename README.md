@@ -34,7 +34,7 @@ Customization and automation
 
 Canvas-only hello-world prototype.
 
-The current branch contains a basic Manifest V3 Chrome extension that runs on Canvas sites hosted at `*.instructure.com`. It adds a temporary panel inside Canvas's `#right-side` sidebar containing the current page URL, document title, first heading, To Do assignments, assignment details, and recent feedback. The panel refreshes when Canvas asynchronously renders assignment To-Dos. The same object is also logged to the browser console. It does not yet call the Canvas API, store data, or authenticate separately.
+The current branch contains a basic Manifest V3 Chrome extension that runs on Canvas sites hosted at `*.instructure.com`. It adds a temporary panel inside Canvas's `#right-side` sidebar with separate To Do and Graded Assignments sections. Each assignment, quiz, or feedback item is rendered in its own bordered card. The panel refreshes when Canvas asynchronously renders assignment or quiz To-Dos. The same object is also logged to the browser console. It does not yet call the Canvas API, store data, or authenticate separately.
 
 # Next Steps
 
@@ -42,6 +42,8 @@ The current branch contains a basic Manifest V3 Chrome extension that runs on Ca
 [X]. Restrict the content script to Canvas pages and inspect temporary page information.
 [X]. Place the temporary information panel inside Canvas's right sidebar.
 [X]. Detect asynchronously rendered assignment To-Dos separately from recent feedback.
+[X]. Render To-Dos and graded assignments in separate sections with individual cards.
+[X]. Include Quiz To-Do items alongside Assignment To-Do items.
 [ ]. Determine how Canvas authentication and API access will work.
 [ ]. Identify the Canvas assignment information needed for the first version.
 [ ]. Write business-layer tests for representing and organizing assignments.
