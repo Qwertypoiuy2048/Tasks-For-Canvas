@@ -1,0 +1,71 @@
+#canvas-tasks-hello-world {
+  position: relative;
+  z-index: 1;
+  margin: 16px 0;
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+  font-family: sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  white-space: pre-wrap;
+  max-width: 100%;
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.canvas-tasks-page-info {
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.canvas-tasks-section {
+  margin-top: 12px;
+}
+
+.canvas-tasks-section-heading {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+
+.canvas-tasks-empty {
+  margin: 0;
+  color: #4b5563;
+}
+
+.canvas-tasks-assignment {
+  margin: 8px 0;
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background: #f9fafb;
+}
+
+.canvas-tasks-assignment-title {
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+.canvas-tasks-assignment-course,
+.canvas-tasks-assignment-type,
+.canvas-tasks-assignment-details,
+.canvas-tasks-assignment-grade,
+.canvas-tasks-assignment-comment {
+  margin-top: 4px;
+  color: #4b5563;
+  font-size: 12px;
+}
+
+.canvas-tasks-assignment-type {
+  color: #6b7280;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.canvas-tasks-assignment-grade {
+  color: #166534;
+  font-weight: 600;
+}

@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Canvas Tasks Hello World",
+  "description": "Temporarily displays page information from Canvas.",
+  "version": "0.1.0",
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*.instructure.com/*",
+        "https://*.instructure.com/*"
+      ],
+      "js": [
+        "src/ui/helloWorldMessage.js",
+        "src/ui/contentScript.js"
+      ],
+      "css": [
+        "src/ui/helloWorldMessage.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
