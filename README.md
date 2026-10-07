@@ -32,9 +32,26 @@ Customization and automation
 
 ### Current Working project specs
 
-Canvas-only hello-world prototype.
+Canvas-only prototype with a temporary dashboard panel.
 
 The current branch contains a basic Manifest V3 Chrome extension that runs on Canvas sites hosted at `*.instructure.com`. It adds a temporary panel inside Canvas's `#right-side` sidebar with separate To Do and Graded Assignments sections. Each assignment, quiz, or feedback item is rendered in its own bordered card. The panel refreshes when Canvas asynchronously renders assignment or quiz To-Dos. The same object is also logged to the browser console. It does not yet call the Canvas API, store data, or authenticate separately.
+
+The current implementation still reads only information rendered in the Canvas dashboard DOM, so it cannot reliably show every incomplete assignment across all courses.
+
+#### Planner endpoint investigation
+
+The current research indicates that Canvas's own frontend requests `/api/v1/planner/items` and can return planner items from multiple courses when no course-specific `context_codes[]` parameters are supplied. The endpoint appears to support `start_date` and `end_date` ISO-8601 parameters, and its results can include announcements as well as assignments.
+
+This is research only; the extension does not call the planner endpoint yet. Before implementation, we still need to verify whether an authenticated request using the user's existing Canvas session works from the extension's current content-script environment, determine whether pagination is required, and define safe weekly timezone boundaries. No Canvas tokens, cookies, CSRF values, or copied browser headers will be added to the project.
+
+#### Initial planner feature decisions
+
+- The first weekly view will run from Monday through Sunday.
+- Weekly boundaries will initially use the browser's local timezone because it is the simplest useful default. A future settings feature should allow the user to choose a timezone.
+- The planner request will be the preferred assignment source.
+- The existing dashboard DOM scraper will remain available as a separate data-source module and fallback path if the planner request is unavailable or fails.
+- The current panel layout should be preserved where practical, but adapting the layout is lower priority than reliably retrieving planner assignments.
+- For the first version, an assignment is considered incomplete when Canvas reports `submissions.submitted === false`. More detailed handling of graded, missing, late, excused, and other submission states can be added later.
 
 # Next Steps
 
@@ -44,10 +61,14 @@ The current branch contains a basic Manifest V3 Chrome extension that runs on Ca
 [X]. Detect asynchronously rendered assignment To-Dos separately from recent feedback.
 [X]. Render To-Dos and graded assignments in separate sections with individual cards.
 [X]. Include Quiz To-Do items alongside Assignment To-Do items.
-[ ]. Determine how Canvas authentication and API access will work.
-[ ]. Identify the Canvas assignment information needed for the first version.
+[X]. Investigate Canvas's planner endpoint, planner item types, and date-range parameters used by Canvas's frontend.
+[ ]. Verify whether an authenticated planner request works from the extension content script.
+[ ]. Determine whether planner response pagination is required.
+[X]. Decide on Monday–Sunday weeks using the browser's local timezone for the first version.
+[ ]. Identify the assignment information needed for the first version and map it to the existing UI data model.
 [ ]. Write business-layer tests for representing and organizing assignments.
-[ ]. Build a simple data service that retrieves assignment information.
+[ ]. Build a tested data-access service for retrieving planner assignments.
+[ ]. Separate the existing DOM scraper into a reusable fallback data-source module.
 [ ]. Display a basic task list on the Canvas dashboard.
 [ ]. Add a simple completion count or percentage.
 [ ]. Test the extension using sample or mocked Canvas data before connecting it fully to live data.
