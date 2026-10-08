@@ -1,10 +1,14 @@
-function buildPlannerItemsUrl(baseUrl, startDate, endDate) {
-  const url = new URL("/api/v1/planner/items", baseUrl);
+const plannerRequestConfig = typeof module !== "undefined" && module.exports
+  ? require("../config/appConfig.js").appConfig
+  : globalThis.TasksForCanvasConfig;
+
+function buildPlannerItemsUrl(baseUrl, startDate, endDate, config = plannerRequestConfig) {
+  const url = new URL(config.planner.endpoint, baseUrl);
   url.searchParams.set("start_date", startDate);
   url.searchParams.set("end_date", endDate);
-  url.searchParams.set("order", "asc");
-  url.searchParams.set("per_page", "20");
-  url.searchParams.set("filter", "incomplete_items");
+  url.searchParams.set("order", config.planner.order);
+  url.searchParams.set("per_page", String(config.planner.perPage));
+  url.searchParams.set("filter", config.planner.filter);
   return url.toString();
 }
 

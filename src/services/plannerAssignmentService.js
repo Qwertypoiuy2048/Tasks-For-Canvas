@@ -1,3 +1,7 @@
+const plannerServiceConfig = typeof module !== "undefined" && module.exports
+  ? require("../config/appConfig.js").appConfig
+  : globalThis.TasksForCanvasConfig;
+
 function normalizeIncompleteAssignments(items) {
   return items
     .filter((item) => (
@@ -20,14 +24,17 @@ function normalizeIncompleteAssignments(items) {
     }));
 }
 
-function getCurrentWeekRange(now = new Date()) {
+function getCurrentWeekRange(now = new Date(), config = plannerServiceConfig) {
   const start = new Date(now);
-  const daysSinceMonday = (start.getDay() + 6) % 7;
-  start.setDate(start.getDate() - daysSinceMonday);
+  const daysSinceWeekStart = (start.getDay() - config.weekStartsOn + 7) % 7;
+  start.setDate(start.getDate() - daysSinceWeekStart);
   start.setHours(0, 0, 0, 0);
 
   const end = new Date(start);
-  end.setDate(end.getDate() + 7);
+  const rangeDays = Number.isInteger(config.rangeDays) && config.rangeDays > 0
+    ? config.rangeDays
+    : 7;
+  end.setDate(end.getDate() + rangeDays);
   end.setMilliseconds(end.getMilliseconds() - 1);
 
   return {

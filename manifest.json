@@ -10,6 +10,8 @@
         "https://*.instructure.com/*"
       ],
       "js": [
+        "src/config/appConfig.js",
+        "src/data/domAssignmentDataSource.js",
         "src/ui/helloWorldMessage.js",
         "src/data/plannerAssignments.js",
         "src/services/plannerAssignmentService.js",

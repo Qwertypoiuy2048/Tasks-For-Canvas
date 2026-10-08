@@ -2,6 +2,6 @@
   "name": "tasks-for-canvas",
   "private": true,
   "scripts": {
-    "test": "node tests/unit/helloWorldMessage.test.js && node tests/unit/plannerAssignments.test.js && node tests/unit/plannerAssignmentService.test.js && node tests/unit/plannerAssignmentView.test.js"
+    "test": "node tests/unit/helloWorldMessage.test.js && node tests/unit/plannerAssignments.test.js && node tests/unit/plannerAssignmentService.test.js && node tests/unit/plannerAssignmentView.test.js && node tests/unit/domAssignmentDataSource.test.js && node tests/unit/extensionScripts.test.js"
   }
 }

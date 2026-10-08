@@ -76,3 +76,27 @@ test("loads assignments for the Monday through Sunday week containing a date", a
   }]);
   assert.equal(result[0].title, "Study");
 });
+
+test("supports changing the configured first day of the week", () => {
+  const range = getCurrentWeekRange(
+    new Date(2026, 9, 7, 14, 30, 0),
+    { weekStartsOn: 0 },
+  );
+
+  assert.deepEqual(range, {
+    startDate: "2026-10-04T06:00:00.000Z",
+    endDate: "2026-10-11T05:59:59.999Z",
+  });
+});
+
+test("supports configuring a shorter or longer planner range", () => {
+  const range = getCurrentWeekRange(
+    new Date(2026, 9, 7, 14, 30, 0),
+    { weekStartsOn: 1, rangeDays: 14 },
+  );
+
+  assert.deepEqual(range, {
+    startDate: "2026-10-05T06:00:00.000Z",
+    endDate: "2026-10-19T05:59:59.999Z",
+  });
+});
