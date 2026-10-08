@@ -1,6 +1,6 @@
 if (isCanvasPage(window.location.href)) {
-  function displayCanvasPageInfo() {
-    const canvasPageInfo = collectCanvasPageInfo(document, window.location.href);
+  function displayCanvasPageInfo(pageInfo = collectCanvasPageInfo(document, window.location.href)) {
+    const canvasPageInfo = pageInfo;
     const existingMessage = document.querySelector("#canvas-tasks-hello-world");
 
     console.info("Tasks for Canvas: temporary page information", canvasPageInfo);
@@ -11,7 +11,30 @@ if (isCanvasPage(window.location.href)) {
     }
   }
 
-  displayCanvasPageInfo();
+  let plannerLoaded = false;
+  const initialPageInfo = collectCanvasPageInfo(document, window.location.href);
+  displayCanvasPageInfo(initialPageInfo);
+
+  loadWeeklyPlannerAssignments({
+    fetchAssignments: ({ startDate, endDate }) => fetchPlannerAssignments({
+      fetchImpl: window.fetch.bind(window),
+      baseUrl: window.location.origin,
+      startDate,
+      endDate,
+    }),
+  })
+    .then((assignments) => {
+      const plannerPageInfo = {
+        ...initialPageInfo,
+        todoAssignments: toTodoAssignments(assignments),
+      };
+      plannerLoaded = true;
+      console.info("Tasks for Canvas: planner assignments", assignments);
+      displayCanvasPageInfo(plannerPageInfo);
+    })
+    .catch((error) => {
+      console.warn("Tasks for Canvas: planner request unavailable; keeping scraped assignments", error);
+    });
 
   const observationTarget = document.querySelector("#right-side") || document.body;
   if (typeof MutationObserver !== "undefined" && observationTarget) {
@@ -20,7 +43,7 @@ if (isCanvasPage(window.location.href)) {
         '.ToDoSidebarItem svg[label="Assignment"], .ToDoSidebarItem svg[label="Quiz"]',
       );
 
-      if (hasTodoAssignment) {
+      if (hasTodoAssignment && !plannerLoaded) {
         displayCanvasPageInfo();
         observer.disconnect();
       }

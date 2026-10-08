@@ -11,6 +11,9 @@
       ],
       "js": [
         "src/ui/helloWorldMessage.js",
+        "src/data/plannerAssignments.js",
+        "src/services/plannerAssignmentService.js",
+        "src/ui/plannerAssignmentView.js",
         "src/ui/contentScript.js"
       ],
       "css": [

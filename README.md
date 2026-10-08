@@ -42,7 +42,7 @@ The current implementation still reads only information rendered in the Canvas d
 
 The current research indicates that Canvas's own frontend requests `/api/v1/planner/items` and can return planner items from multiple courses when no course-specific `context_codes[]` parameters are supplied. The endpoint appears to support `start_date` and `end_date` ISO-8601 parameters, and its results can include announcements as well as assignments.
 
-This is research only; the extension does not call the planner endpoint yet. Before implementation, we still need to verify whether an authenticated request using the user's existing Canvas session works from the extension's current content-script environment, determine whether pagination is required, and define safe weekly timezone boundaries. No Canvas tokens, cookies, CSRF values, or copied browser headers will be added to the project.
+The repository now contains a tested data-access request module for building this request, sending it with the browser-managed session, parsing a successful JSON response, and reporting HTTP failures. The content script now tries planner data first and keeps the existing scraped dashboard data as a fallback when the planner request fails. Before relying on this live path, we still need to verify the authenticated request in Chrome, determine whether pagination is required, and improve the separation of the scraper into its own data-source file. No Canvas tokens, cookies, CSRF values, or copied browser headers will be added to the project.
 
 #### Initial planner feature decisions
 
@@ -62,12 +62,13 @@ This is research only; the extension does not call the planner endpoint yet. Bef
 [X]. Render To-Dos and graded assignments in separate sections with individual cards.
 [X]. Include Quiz To-Do items alongside Assignment To-Do items.
 [X]. Investigate Canvas's planner endpoint, planner item types, and date-range parameters used by Canvas's frontend.
-[ ]. Verify whether an authenticated planner request works from the extension content script.
+[ ]. Verify the planner request works from the extension content script in Chrome.
 [ ]. Determine whether planner response pagination is required.
 [X]. Decide on Monday–Sunday weeks using the browser's local timezone for the first version.
-[ ]. Identify the assignment information needed for the first version and map it to the existing UI data model.
+[X]. Identify the initial assignment information and map it to the existing UI data model.
 [ ]. Write business-layer tests for representing and organizing assignments.
-[ ]. Build a tested data-access service for retrieving planner assignments.
+[X]. Build and test the initial data-access request module for planner items.
+[X]. Filter planner results to incomplete assignments and normalize them into the app's task model.
 [ ]. Separate the existing DOM scraper into a reusable fallback data-source module.
 [ ]. Display a basic task list on the Canvas dashboard.
 [ ]. Add a simple completion count or percentage.
