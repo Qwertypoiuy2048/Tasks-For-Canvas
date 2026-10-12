@@ -19,17 +19,25 @@ const appConfig = {
     showAnnouncements: false,
     showCompleted: false,
     showEmptySections: true,
-    groupByCourse: false,
-    sortBy: "canvas-order", // canvas-order | due-date | course | title | type
+    groupBy: "day",  // day | course
+    sortBy: "due-date", // due-date | course | title | type
     sortDirection: "asc", // asc | desc
-    maxVisibleTasks: null,
+    maxVisibleTasks: 60,
     collapsedSections: [],
-    theme: "canvas-light", // canvas-light | light | dark | system
+    theme: "light", // light | dark | system
     density: "comfortable", // compact | comfortable | spacious
     showCourseNames: true,
     showTaskTypes: true,
     showDueDates: true,
     showFeedbackComments: true,
+    useColorPriority: true,
+    lowPriorityColor: "#fff",
+    mediumPriorityColor: "#777",
+    highPriorityColor: "#000",
+    lowPriorityCutoff: 10,
+    mediumPriorityCutoff: 40,
+    highPriorityCutoff: 90,
+
   },
 
   // FUTURE CONFIGURATION: These values describe which Canvas items count as tasks.
@@ -80,14 +88,6 @@ const appConfig = {
     includeOverdue: true,
     includeMissing: true,
     dailySummary: false,
-  },
-
-  // FUTURE CONFIGURATION: No preferences or task history are stored yet.
-  storage: {
-    preferenceScope: "per-canvas-site", // global | per-canvas-site
-    syncPreferences: false,
-    saveTaskHistory: false,
-    retentionDays: 30,
   },
 };
 
