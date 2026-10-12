@@ -1,12 +1,17 @@
 #canvas-tasks-hello-world {
+  --canvas-tasks-border: #d1d5db;
+  --canvas-tasks-background: #ffffff;
+  --canvas-tasks-card-background: #f9fafb;
+  --canvas-tasks-text: #111827;
+  --canvas-tasks-muted-text: #4b5563;
   position: relative;
   z-index: 1;
   margin: 16px 0;
   padding: 10px 14px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--canvas-tasks-border);
   border-radius: 6px;
-  background: #ffffff;
-  color: #111827;
+  background: var(--canvas-tasks-background);
+  color: var(--canvas-tasks-text);
   box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
   font-family: sans-serif;
   font-size: 14px;
@@ -33,15 +38,15 @@
 
 .canvas-tasks-empty {
   margin: 0;
-  color: #4b5563;
+  color: var(--canvas-tasks-muted-text);
 }
 
 .canvas-tasks-assignment {
   margin: 8px 0;
   padding: 8px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--canvas-tasks-border);
   border-radius: 4px;
-  background: #f9fafb;
+  background: var(--canvas-tasks-card-background);
 }
 
 .canvas-tasks-assignment-title {
@@ -55,7 +60,7 @@
 .canvas-tasks-assignment-grade,
 .canvas-tasks-assignment-comment {
   margin-top: 4px;
-  color: #4b5563;
+  color: var(--canvas-tasks-muted-text);
   font-size: 12px;
 }
 
@@ -68,4 +73,43 @@
 .canvas-tasks-assignment-grade {
   color: #166534;
   font-weight: 600;
+}
+
+/* IMPLEMENTED display configuration: theme and density classes come from the renderer. */
+#canvas-tasks-hello-world.canvas-tasks-theme-dark {
+  --canvas-tasks-border: #4b5563;
+  --canvas-tasks-background: #1f2937;
+  --canvas-tasks-card-background: #374151;
+  --canvas-tasks-text: #f9fafb;
+  --canvas-tasks-muted-text: #d1d5db;
+}
+
+@media (prefers-color-scheme: dark) {
+  #canvas-tasks-hello-world.canvas-tasks-theme-system {
+    --canvas-tasks-border: #4b5563;
+    --canvas-tasks-background: #1f2937;
+    --canvas-tasks-card-background: #374151;
+    --canvas-tasks-text: #f9fafb;
+    --canvas-tasks-muted-text: #d1d5db;
+  }
+}
+
+#canvas-tasks-hello-world.canvas-tasks-density-compact {
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+#canvas-tasks-hello-world.canvas-tasks-density-compact .canvas-tasks-assignment {
+  margin: 5px 0;
+  padding: 5px;
+}
+
+#canvas-tasks-hello-world.canvas-tasks-density-spacious {
+  padding: 14px 18px;
+  font-size: 15px;
+}
+
+#canvas-tasks-hello-world.canvas-tasks-density-spacious .canvas-tasks-assignment {
+  margin: 11px 0;
+  padding: 11px;
 }

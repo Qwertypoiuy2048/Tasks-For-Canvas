@@ -75,6 +75,83 @@ test("renders To Do and graded assignments in separate sections", () => {
   assert.equal(message.children[2].children[1].className, "canvas-tasks-assignment");
 });
 
+test("applies display configuration to the panel and assignment fields", () => {
+  function createNode(tagName) {
+    const node = {
+      tagName,
+      className: "",
+      textContent: "",
+      children: [],
+      append: (...children) => node.children.push(...children),
+    };
+    return node;
+  }
+
+  const message = createNode("div");
+  const document = { createElement: createNode };
+  const config = {
+    panelTitle: "My Tasks",
+    showTodo: true,
+    showGraded: false,
+    showEmptySections: true,
+    showCourseNames: false,
+    showTaskTypes: false,
+    showDueDates: false,
+    showFeedbackComments: false,
+    theme: "dark",
+    density: "compact",
+  };
+
+  updateHelloWorldMessage(message, {
+    todoAssignments: [{
+      title: "Read chapter 1",
+      type: "Assignment",
+      course: "CSE 199",
+      details: ["Oct 12 at 11:59pm"],
+    }],
+    feedback: [{
+      title: "Lab",
+      course: "CSE 199",
+      grade: "90%",
+      comment: "Nice work.",
+    }],
+  }, document, config);
+
+  assert.equal(message.className, "canvas-tasks-theme-dark canvas-tasks-density-compact");
+  assert.equal(message.children[0].textContent, "My Tasks");
+  assert.equal(message.children.length, 2);
+  assert.equal(message.children[1].children.length, 2);
+  assert.equal(message.children[1].children[1].children.length, 1);
+});
+
+test("can hide empty sections", () => {
+  function createNode(tagName) {
+    const node = {
+      tagName,
+      className: "",
+      textContent: "",
+      children: [],
+      append: (...children) => node.children.push(...children),
+    };
+    return node;
+  }
+
+  const message = createNode("div");
+  const document = { createElement: createNode };
+
+  updateHelloWorldMessage(message, {
+    todoAssignments: [],
+    feedback: [],
+  }, document, {
+    panelTitle: "My Tasks",
+    showTodo: true,
+    showGraded: true,
+    showEmptySections: false,
+  });
+
+  assert.equal(message.children.length, 1);
+});
+
 test("adds the temporary information inside Canvas's right sidebar", () => {
   const message = { textContent: "", id: "" };
   const sidebar = {

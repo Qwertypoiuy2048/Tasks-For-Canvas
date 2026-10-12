@@ -9,12 +9,20 @@ function isCanvasPage(url) {
   }
 }
 
+const defaultDisplayConfig = typeof module !== "undefined" && module.exports
+  ? require("../config/appConfig.js").appConfig.display
+  : globalThis.TasksForCanvasConfig.display;
+
 const getCanvasPageInfo = typeof module !== "undefined" && module.exports
   ? require("../data/domAssignmentDataSource.js").collectCanvasPageInfo
   : globalThis.CanvasDomAssignmentDataSource.collectCanvasPageInfo;
 
 function updateHelloWorldMessage(message, pageInfo) {
   const document = arguments[2];
+  const displayConfig = {
+    ...defaultDisplayConfig,
+    ...(arguments[3] || {}),
+  };
   if (!pageInfo || !document || typeof message.append !== "function") {
     message.textContent = pageInfo
       ? `Hello World\n${JSON.stringify(pageInfo, null, 2)}`
@@ -23,21 +31,40 @@ function updateHelloWorldMessage(message, pageInfo) {
   }
 
   message.textContent = "";
-  message.append(createTextElement(document, "div", "canvas-tasks-page-info", pageInfo.title || "Canvas"));
-  message.append(createAssignmentSection(
+  message.className = [
+    `canvas-tasks-theme-${displayConfig.theme}`,
+    `canvas-tasks-density-${displayConfig.density}`,
+  ].join(" ");
+  message.append(createTextElement(
     document,
-    "To Do",
-    "canvas-tasks-todo",
-    pageInfo.todoAssignments || [],
-    false,
+    "div",
+    "canvas-tasks-page-info",
+    displayConfig.panelTitle || pageInfo.title || "Canvas",
   ));
-  message.append(createAssignmentSection(
-    document,
-    "Graded Assignments",
-    "canvas-tasks-graded",
-    pageInfo.feedback || [],
-    true,
-  ));
+
+  if (displayConfig.showTodo) {
+    const todoSection = createAssignmentSection(
+      document,
+      "To Do",
+      "canvas-tasks-todo",
+      pageInfo.todoAssignments || [],
+      false,
+      displayConfig,
+    );
+    if (todoSection) message.append(todoSection);
+  }
+
+  if (displayConfig.showGraded) {
+    const gradedSection = createAssignmentSection(
+      document,
+      "Graded Assignments",
+      "canvas-tasks-graded",
+      pageInfo.feedback || [],
+      true,
+      displayConfig,
+    );
+    if (gradedSection) message.append(gradedSection);
+  }
 }
 
 function createTextElement(document, tagName, className, text) {
@@ -47,7 +74,9 @@ function createTextElement(document, tagName, className, text) {
   return element;
 }
 
-function createAssignmentSection(document, heading, sectionName, assignments, isFeedback) {
+function createAssignmentSection(document, heading, sectionName, assignments, isFeedback, displayConfig) {
+  if (assignments.length === 0 && !displayConfig.showEmptySections) return null;
+
   const section = createTextElement(
     document,
     "section",
@@ -72,11 +101,11 @@ function createAssignmentSection(document, heading, sectionName, assignments, is
       card.append(createTextElement(document, "div", "canvas-tasks-assignment-title", title));
     }
 
-    if (!isFeedback && assignment.type) {
+    if (!isFeedback && displayConfig.showTaskTypes && assignment.type) {
       card.append(createTextElement(document, "div", "canvas-tasks-assignment-type", assignment.type));
     }
 
-    if (assignment.course) {
+    if (displayConfig.showCourseNames && assignment.course) {
       card.append(createTextElement(document, "div", "canvas-tasks-assignment-course", assignment.course));
     }
 
@@ -84,10 +113,10 @@ function createAssignmentSection(document, heading, sectionName, assignments, is
       if (assignment.grade) {
         card.append(createTextElement(document, "div", "canvas-tasks-assignment-grade", assignment.grade));
       }
-      if (assignment.comment) {
+      if (displayConfig.showFeedbackComments && assignment.comment) {
         card.append(createTextElement(document, "div", "canvas-tasks-assignment-comment", assignment.comment));
       }
-    } else if (assignment.details && assignment.details.length > 0) {
+    } else if (displayConfig.showDueDates && assignment.details && assignment.details.length > 0) {
       card.append(createTextElement(
         document,
         "div",

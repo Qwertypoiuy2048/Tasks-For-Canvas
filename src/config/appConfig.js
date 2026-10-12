@@ -9,27 +9,29 @@ const appConfig = {
     filter: "incomplete_items",
   },
 
-  // FUTURE CONFIGURATION: These values document the intended display settings.
-  // They are not read by the UI yet, so changing them currently has no effect.
+  // IMPLEMENTED: The panel renderer reads the visibility, title, theme, and density settings.
   display: {
-    panelLocation: "right-sidebar", // right-sidebar | floating | page
     panelTitle: "Canvas Tasks",
     showTodo: true,
     showGraded: true,
+    showCourseNames: true,
+    showTaskTypes: true,
+    showEmptySections: true,
+    showFeedbackComments: true,
+    showDueDates: true,
+    theme: "light", // light | dark | system
+    density: "comfortable", // compact | comfortable | spacious
+    // FUTURE CONFIGURATION: Announcements and completed tasks are not displayed yet.
+    panelLocation: "right-sidebar", // right-sidebar | floating | page
     showAnnouncements: false,
     showCompleted: false,
-    showEmptySections: true,
+    // FUTURE CONFIGURATION: Grouping, sorting, limits, priority colors, and collapsed
+    // sections are documented here but are not wired into the renderer yet.
     groupBy: "day",  // day | course
     sortBy: "due-date", // due-date | course | title | type
     sortDirection: "asc", // asc | desc
     maxVisibleTasks: 60,
     collapsedSections: [],
-    theme: "light", // light | dark | system
-    density: "comfortable", // compact | comfortable | spacious
-    showCourseNames: true,
-    showTaskTypes: true,
-    showDueDates: true,
-    showFeedbackComments: true,
     useColorPriority: true,
     lowPriorityColor: "#fff",
     mediumPriorityColor: "#777",
@@ -37,7 +39,6 @@ const appConfig = {
     lowPriorityCutoff: 10,
     mediumPriorityCutoff: 40,
     highPriorityCutoff: 90,
-
   },
 
   // FUTURE CONFIGURATION: These values describe which Canvas items count as tasks.
