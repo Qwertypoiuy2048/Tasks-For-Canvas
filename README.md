@@ -40,6 +40,8 @@ The current implementation still reads only information rendered in the Canvas d
 
 The code is organized by responsibility: `src/config/` contains changeable settings, `src/data/` contains Canvas data sources, `src/services/` contains filtering and date rules, and `src/ui/` contains rendering and extension entrypoint code. The current `src/config/appConfig.js` sets the first day of the week, the number of days to display, and planner request values in one place. `rangeDays: 7` shows one week; it can be changed to `3` for a few days or `14` for two weeks. The manifest loads these classic scripts in a tested order so their shared extension context does not redeclare identifiers.
 
+The same configuration file now contains a commented blueprint for future display, task-filtering, data, interaction, notification, and storage settings. Values under the `IMPLEMENTED` comment are used by the current runtime. Values under `FUTURE CONFIGURATION` are design placeholders only; changing them does not change behavior until the related feature is implemented. This keeps possible settings visible without falsely claiming that a popup or options page exists.
+
 #### Planner endpoint investigation
 
 The current research indicates that Canvas's own frontend requests `/api/v1/planner/items` and can return planner items from multiple courses when no course-specific `context_codes[]` parameters are supplied. The endpoint appears to support `start_date` and `end_date` ISO-8601 parameters, and its results can include announcements as well as assignments.
@@ -64,7 +66,7 @@ The repository now contains a tested data-access request module for building thi
 [X]. Separate the existing DOM scraper into a reusable fallback data-source module.
 [X]. Display a basic task list on the Canvas dashboard.
 [X]. Test the extension using sample or mocked Canvas data before connecting it fully to live data.
-[ ]. Update processes to allow more configurability
+[X]. Document implemented and future configuration areas in `src/config/appConfig.js`
 [ ]. Add Configuration page
 [ ]. Determine whether planner response pagination is required.
 [ ]. Write business-layer tests for representing and organizing assignments.
