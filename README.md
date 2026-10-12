@@ -34,7 +34,7 @@ Customization and automation
 
 Canvas-only prototype with a temporary dashboard panel.
 
-The current branch contains a basic Manifest V3 Chrome extension that runs on Canvas sites hosted at `*.instructure.com`. It adds a temporary panel inside Canvas's `#right-side` sidebar with separate To Do and Graded Assignments sections. Each assignment, quiz, or feedback item is rendered in its own bordered card. The panel refreshes when Canvas asynchronously renders assignment or quiz To-Dos. The same object is also logged to the browser console. It does not yet call the Canvas API, store data, or authenticate separately.
+The current branch contains a basic Manifest V3 Chrome extension that runs on Canvas sites hosted at `*.instructure.com`. It adds a temporary panel inside Canvas's `#right-side` sidebar with separate To Do and Graded Assignments sections. Each assignment, quiz, or feedback item is rendered in its own bordered card. The panel refreshes when Canvas asynchronously renders assignment or quiz To-Dos. The same object is also logged to the browser console. It does not yet authenticate separately.
 
 The current implementation still reads only information rendered in the Canvas dashboard DOM, so it cannot reliably show every incomplete assignment across all courses.
 
@@ -46,14 +46,6 @@ The current research indicates that Canvas's own frontend requests `/api/v1/plan
 
 The repository now contains a tested data-access request module for building this request, sending it with the browser-managed session, parsing a successful JSON response, and reporting HTTP failures. The content script now tries planner data first and keeps the existing scraped dashboard data as a fallback when the planner request fails. Before relying on this live path, we still need to verify the authenticated request in Chrome, determine whether pagination is required, and improve the separation of the scraper into its own data-source file. No Canvas tokens, cookies, CSRF values, or copied browser headers will be added to the project.
 
-#### Initial planner feature decisions
-
-- The first weekly view will run from Monday through Sunday.
-- Weekly boundaries will initially use the browser's local timezone because it is the simplest useful default. A future settings feature should allow the user to choose a timezone.
-- The planner request will be the preferred assignment source.
-- The existing dashboard DOM scraper will remain available as a separate data-source module and fallback path if the planner request is unavailable or fails.
-- The current panel layout should be preserved where practical, but adapting the layout is lower priority than reliably retrieving planner assignments.
-- For the first version, an assignment is considered incomplete when Canvas reports `submissions.submitted === false`. More detailed handling of graded, missing, late, excused, and other submission states can be added later.
 
 # Next Steps
 
@@ -64,17 +56,19 @@ The repository now contains a tested data-access request module for building thi
 [X]. Render To-Dos and graded assignments in separate sections with individual cards.
 [X]. Include Quiz To-Do items alongside Assignment To-Do items.
 [X]. Investigate Canvas's planner endpoint, planner item types, and date-range parameters used by Canvas's frontend.
-[ ]. Verify the planner request works from the extension content script in Chrome.
-[ ]. Determine whether planner response pagination is required.
+[X]. Verify the planner request works from the extension content script in Chrome.
 [X]. Decide on Monday–Sunday weeks using the browser's local timezone for the first version.
 [X]. Identify the initial assignment information and map it to the existing UI data model.
-[ ]. Write business-layer tests for representing and organizing assignments.
 [X]. Build and test the initial data-access request module for planner items.
 [X]. Filter planner results to incomplete assignments and normalize them into the app's task model.
 [X]. Separate the existing DOM scraper into a reusable fallback data-source module.
-[ ]. Display a basic task list on the Canvas dashboard.
+[X]. Display a basic task list on the Canvas dashboard.
+[X]. Test the extension using sample or mocked Canvas data before connecting it fully to live data.
+[ ]. Update processes to allow more configurability
+[ ]. Add Configuration page
+[ ]. Determine whether planner response pagination is required.
+[ ]. Write business-layer tests for representing and organizing assignments.
 [ ]. Add a simple completion count or percentage.
-[ ]. Test the extension using sample or mocked Canvas data before connecting it fully to live data.
 
 ### Running the extension locally
 

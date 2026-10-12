@@ -7,11 +7,11 @@ This file tells AI coding agents (Claude Code, Copilot, Cursor, Codex, etc.) how
 ## 1. Project Details (student fills this in)
 
 - **App name:** Tasks for Canvas
-- **One-sentence description:** This is a chrome extention that pulls assignments that need to be done and creates a small tasklist and completion circle on your canvas dashboard
-- **Platform:** chrome extention
-- **Language(s):** unknown
+- **One-sentence description:** This is a chrome extension that pulls assignments that need to be done and creates a small task list and completion circle on your canvas dashboard
+- **Platform:** chrome extension
+- **Language(s):** JS, CSS, JSON, HTML
 - **Frameworks:** unknown
-- **Data storage:** supabase if needed
+- **Data storage:** Browser storage
 - **Test framework(s):** unknown
 - **Command to run the app:**
 - **Command to run all tests:**
