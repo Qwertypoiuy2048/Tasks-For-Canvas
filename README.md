@@ -60,14 +60,13 @@ The repository now contains a tested data-access request module for building thi
 [X]. Render To-Dos and graded assignments in separate sections with individual cards.
 [X]. Include Quiz To-Do items alongside Assignment To-Do items.
 [X]. Investigate Canvas's planner endpoint, planner item types, and date-range parameters used by Canvas's frontend.
-[X]. Verify the planner request works from the extension content script in Chrome.
-[X]. Decide on Monday–Sunday weeks using the browser's local timezone for the first version.
 [X]. Identify the initial assignment information and map it to the existing UI data model.
 [X]. Build and test the initial data-access request module for planner items.
 [X]. Filter planner results to incomplete assignments and normalize them into the app's task model.
-[X]. Separate the existing DOM scraper into a reusable fallback data-source module.
 [X]. Display a basic task list on the Canvas dashboard.
 [X]. Test the extension using sample or mocked Canvas data before connecting it fully to live data.
+[X]. Verify the planner request works from the extension content script in Chrome.
+[X]. Separate the existing DOM scraper into a reusable fallback data-source module.
 [X]. Document implemented and future configuration areas in `src/config/appConfig.js`
 [X]. Implement the first display and UI configuration settings
 [ ]. Add Configuration page
